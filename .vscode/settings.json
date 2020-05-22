@@ -1,0 +1,11 @@
+{
+    "files.watcherExclude": {
+        "**/node_modules/**": true,
+        "**/assets/css/font-awesome/**": true,
+        "**/dist/**": true,
+        "**/.nuxt/**": true,
+        "**/static/**": true
+    },
+    "git.ignoreLimitWarning": true,
+    "typescript.tsdk": "node_modules/typescript/lib"
+}

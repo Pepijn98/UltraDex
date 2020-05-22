@@ -1,0 +1,75 @@
+{
+    "name": "ultradex",
+    "version": "0.0.1",
+    "description": "Lookup any pokemon in the pokedex",
+    "license": "MIT",
+    "private": false,
+    "homepage": "https://github.com/KurozeroPB/UltraDex#readme",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/KurozeroPB/UltraDex.git"
+    },
+    "bugs": {
+        "url": "https://github.com/KurozeroPB/UltraDex/issues"
+    },
+    "author": {
+        "email": "root@kurozeropb.info",
+        "name": "Pepijn van den Broek",
+        "url": "https://vdbroek.dev"
+    },
+    "scripts": {
+        "test": "cross-env NODE_ENV=development nuxt-ts",
+        "dev": "cross-env NODE_ENV=development nuxt-ts",
+        "build": "nuxt-ts build",
+        "start": "cross-env NODE_ENV=production nuxt-ts start",
+        "generate": "cross-env NODE_ENV=production nuxt-ts generate",
+        "reinstall": "reinstall",
+        "lint": "eslint --ext .ts,.js,.vue .",
+        "lint:fix": "eslint --fix --ext .ts,.js,.vue .",
+        "stylelint": "stylelint '**/*.vue' --syntax scss",
+        "stylelint:fix": "stylelint --fix '**/*.vue' --syntax scss"
+    },
+    "dependencies": {
+        "@nuxt/typescript-runtime": "^0.4.6",
+        "@nuxtjs/axios": "^5.10.3",
+        "@nuxtjs/component-cache": "^1.1.5",
+        "@nuxtjs/dotenv": "^1.4.1",
+        "@nuxtjs/google-analytics": "^2.2.3",
+        "@nuxtjs/pwa": "^3.0.0-beta.20",
+        "@nuxtjs/sentry": "^4.0.3",
+        "@nuxtjs/sitemap": "^2.3.0",
+        "babel-polyfill": "^6.26.0",
+        "chalk": "^4.0.0",
+        "cross-env": "^7.0.2",
+        "git-rev-sync": "^2.0.0",
+        "mobile-device-detect": "^0.3.3",
+        "node-sass": "^4.14.1",
+        "nuxt": "^2.12.2",
+        "pokeapi-js-wrapper": "^1.1.2",
+        "sass-loader": "^8.0.2",
+        "vue-analytics": "^5.22.1",
+        "vue-loading-overlay": "^3.3.2",
+        "vuetify-toast-snackbar": "^0.6.1"
+    },
+    "devDependencies": {
+        "@nuxt/typescript-build": "^0.6.6",
+        "@nuxtjs/eslint-config": "^3.0.0",
+        "@nuxtjs/eslint-config-typescript": "^2.0.0",
+        "@nuxtjs/eslint-module": "^2.0.0",
+        "@nuxtjs/stylelint-module": "^3.2.2",
+        "@nuxtjs/vuetify": "^1.11.2",
+        "@types/node": "^14.0.1",
+        "@types/stylelint-webpack-plugin": "^0.1.5",
+        "eslint": "^7.0.0",
+        "eslint-plugin-nuxt": "^1.0.0",
+        "npm-reinstall": "^3.1.0",
+        "stylelint": "^13.3.3",
+        "stylelint-config-recommended": "^3.0.0",
+        "stylelint-config-recommended-scss": "^4.2.0",
+        "stylelint-processor-html": "^1.0.0",
+        "stylelint-scss": "^3.17.2",
+        "stylelint-webpack-plugin": "^2.0.0",
+        "typescript": "^3.9.2",
+        "vue-property-decorator": "^8.4.2"
+    }
+}
