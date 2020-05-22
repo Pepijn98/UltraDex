@@ -1,10 +1,10 @@
-import Api from "~/interfaces/Api";
 import Console from "~/interfaces/Console";
 import Settings from "~/interfaces/Settings";
 import Utils from "~/interfaces/Utils";
 import * as SentryTypes from "@sentry/minimal";
 import { NuxtAxiosInstance } from "@nuxtjs/axios";
 import { VuetifyToastObject } from "vuetify-toast-snackbar";
+import { Vuetify } from "vuetify";
 
 interface VuetifyToastShow {
     (message: string, options?: VuetifyToastObject): void
@@ -27,13 +27,15 @@ declare module "@nuxt/types" {
         $axios: NuxtAxiosInstance;
 
         // plugins
-        $api: Api;
         $console: Console;
         $http: NuxtAxiosInstance;
         $settings: Settings;
         $utils: Utils;
 
         $toast: VuetifyToastMethods;
+        $pokeapi: any;
+
+        $vuetify: Vuetify;
 
         // sentry
         readonly $sentry: typeof SentryTypes;

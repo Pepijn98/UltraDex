@@ -62,10 +62,11 @@ const config: Configuration = {
             { rel: "icon", type: "image/png", href: "/static/icons/favicon-16x16.png", sizes: "16x16" },
             { rel: "icon", type: "image/png", href: "/static/icons/favicon-128.png", sizes: "128x128" },
             { rel: "manifest", href: "/static/icons/manifest.json" },
-            { rel: "mask-icon", href: "/static/icons/android-chrome-512x512.png", color: "#e8ba4b" }
+            { rel: "mask-icon", href: "/static/icons/android-chrome-512x512.png", color: "#e8ba4b" },
 
             // External links
-            // { rel: "stylesheet", href: "https://use.fontawesome.com/releases/v5.12.1/css/all.css", integrity: "sha384-v8BU367qNbs/aIZIxuivaU55N5GPF89WBerHoGA4QTcbUjYiLQtKdrfXnqAcXyTv", crossorigin: "anonymous" }
+            { rel: "stylesheet", href: "https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" },
+            { rel: "stylesheet", href: "https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" }
         ],
         script: [
             // Polyfill nuxtjs prefetch links
@@ -85,8 +86,7 @@ const config: Configuration = {
         "~/plugins/settings.ts",
         "~/plugins/console.ts",
         "~/plugins/utils.ts",
-        "~/plugins/pokeapi.ts",
-        "~/plugins/afterEach.ts"
+        "~/plugins/pokeapi.ts"
     ],
     buildModules: [
         "@nuxt/typescript-build", // Doc: https://typescript.nuxtjs.org/

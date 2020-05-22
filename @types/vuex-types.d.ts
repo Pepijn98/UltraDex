@@ -1,4 +1,3 @@
-import Api from "~/interfaces/Api";
 import Console from "~/interfaces/Console";
 import Settings from "~/interfaces/Settings";
 import Utils from "~/interfaces/Utils";
@@ -19,13 +18,13 @@ interface VuetifyToastMethods extends VuetifyToastShow {
 declare module "vuex/types/index" {
     interface Store<S> {
         // plugins
-        $api: Api;
         $console: Console;
         $http: NuxtAxiosInstance;
         $settings: Settings;
         $utils: Utils;
 
         $toast: VuetifyToastMethods;
+        $pokeapi: any;
 
         // sentry
         readonly $sentry: typeof SentryTypes;

@@ -1,5 +1,4 @@
 interface Utils {
-    darkmode: boolean;
     lastModified(): string;
     isEmptyObject(obj: Object): boolean;
     success(message: string, debug?: boolean): void;

@@ -1,4 +1,4 @@
-import Pokedex from "pokeapi-js-wrapper";
+import * as Pokedex from "pokeapi-js-wrapper";
 import { Plugin } from "@nuxt/types";
 
 const plugin: Plugin = (_, inject) => {

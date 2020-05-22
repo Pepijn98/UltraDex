@@ -1,19 +1,12 @@
 <template>
-    <div class="is-error">
-        <div class="container">
-            <div class="content-outer">
-                <div class="content">
-                    <b-icon pack="far" icon="frown" />
-                    <h1 v-if="error.statusCode === 404" class="title">{{ error.statusCode }} Not Found</h1>
-                    <h1 v-else class="title">{{ error.statusCode }} Failed loading page</h1>
-                    <hr>
-                    <h6 class="message">{{ error.message }}</h6>
-                    <b-button :icon-left="to.icon" type="is-danger" tag="nuxt-link" :to="to.path">
-                        {{ to.text }}
-                    </b-button>
-                </div>
-            </div>
-        </div>
+    <div class="content">
+        <v-icon class="icon" color="error" size="200px">mdi-alert-circle</v-icon>
+        <h1 v-if="error.statusCode === 404" class="error-title">{{ error.statusCode }} Not Found</h1>
+        <h1 v-else class="error-title">{{ error.statusCode }} Failed loading page</h1>
+        <h5 class="message">{{ error.message }}</h5>
+        <v-btn :icon-left="to.icon" :to="to.path" color="error" nuxt small>
+            <v-icon left>{{ to.icon }}</v-icon> {{ to.text }}
+        </v-btn>
     </div>
 </template>
 
@@ -26,15 +19,15 @@ export default class ErrorLayout extends Vue {
 
     get to() {
         if (this.$utils.isEmptyObject(this.$nuxt.context.from))
-            return { path: "/", text: "Home", pack: "fad", icon: "home-lg" };
+            return { path: "/", text: "Home", icon: "mdi-home" };
 
         if (this.$route.name !== this.$nuxt.context.from.name)
-            return { path: this.$nuxt.context.from.path, text: "Back", pack: "fas", icon: "caret-left" };
+            return { path: this.$nuxt.context.from.path, text: "Back", icon: "mdi-arrow_left" };
 
         if ((this.error as any).statusCode === 404)
-            return { path: "/", text: "Home", pack: "fad", icon: "home-lg" };
+            return { path: "/", text: "Home", icon: "mdi-home" };
 
-        return { path: this.$route.path, text: "Refresh", pack: "fas", icon: "redo-alt" };
+        return { path: this.$route.path, text: "Refresh", icon: "mdi-refresh" };
     }
 
     mounted() {
@@ -42,3 +35,26 @@ export default class ErrorLayout extends Vue {
     }
 };
 </script>
+
+<style lang="scss">
+.content {
+    margin: auto;
+    width: 50%;
+    text-align: center;
+
+    .icon {
+        color: #ff5252;
+    }
+
+    .error-title {
+        font-size: 2.5rem;
+        color: #ff5252;
+    }
+
+    .message {
+        font-size: 1.25em;
+        margin-bottom: 10px;
+        color: #ff5252;
+    }
+}
+</style>
