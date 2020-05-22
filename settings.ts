@@ -10,13 +10,13 @@ const settings: Settings = {
     google: {
         test: false,
         analytics: {
-            trackingId: "UA-88870908-4",
+            trackingId: "UA-88870908-6",
             accountId: "88870908",
             domain: process.env.NODE_ENV === "production" ? "https://ultradex.pro" : "http://localhost:3000"
         }
     },
     sentry: {
-        dsn: "https://f8b461a02563499a939dbbb8dbe58303@sentry.io/5173569",
+        dsn: "https://b5773fe01b8e45c89742ce694f7fca05@o101961.ingest.sentry.io/5250915",
         // publishRelease: true,
         // attachCommits: true,
         repo: pkg.repository.url,

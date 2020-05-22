@@ -55,24 +55,24 @@ export default class UltraBar extends Vue {
 .v-text-field--outlined {
     > .v-input__control {
         > .v-input__slot {
-            min-height: 35px;
+            min-height: 35px !important;
         }
     }
 
     .v-label {
-        top: 8px;
+        top: 8px !important;
     }
 }
 
 .v-text-field--enclosed {
     .v-input__prepend-inner {
-        margin-top: 6px;
+        margin-top: 6px !important;
     }
 }
 
 .search {
     .v-label--active {
-        top: 16px;
+        top: 16px !important;
     }
 }
 </style>
