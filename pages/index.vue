@@ -1,6 +1,11 @@
 <template>
     <div>
         <ultrabar />
+        <v-pagination
+            v-model="page"
+            :length="Math.floor(count / options.limit)"
+            total-visible="10"
+            @input="fetchPokemon" />
         <v-container fluid>
             <v-row class="pokemon" align="center">
                 <v-col v-for="poke in pokemon" :key="poke.name" md="3">
@@ -33,7 +38,7 @@
                                 <b style="text-shadow: 1px 1px 3px #000000;">{{ item.type.name }}</b>
                             </v-chip>
                         </div>
-                        <v-card-title>{{ poke.name }}</v-card-title>
+                        <v-card-title>{{ $utils.beautifyName(poke.name) }}</v-card-title>
                         <v-card-subtitle>Pitch-Black Pokémon</v-card-subtitle>
                         <v-card-text>It can lull people to sleep and make them dream. It is active during nights of the new moon.</v-card-text>
                     </v-card>
@@ -71,6 +76,42 @@ export default class IndexPage extends Vue {
         offset: 0
     };
 
+    spriteNames: Record<string, string> = {
+        "giratina-altered": "giratina",
+        "pumpkaboo-average": "pumpkaboo",
+        "gourgeist-average": "gourgeist",
+        "meowstic-female": "meowstic-f",
+        "charizard-mega-y": "charizard-megay",
+        "charizard-mega-x": "charizard-megax",
+        "mewtwo-mega-y": "mewtwo-megay",
+        "mewtwo-mega-x": "mewtwo-megax",
+        "pikachu-rock-star": "pikachu-rockstar",
+        "pikachu-pop-star": "pikachu-popstar",
+        "pikachu-original-cap": "pikachu-kantocap",
+        "pikachu-hoenn-cap": "pikachu-hoenncap",
+        "pikachu-sinnoh-cap": "pikachu-sinnohcap",
+        "pikachu-unova-cap": "pikachu-unovacap",
+        "pikachu-kalos-cap": "pikachu-kaloscap",
+        "pikachu-alola-cap": "pikachu-alolacap",
+        "raticate-totem-alola": "raticate-totem",
+        "greninja-battle-bond": "greninja-active",
+        "greninja-ash": "greninja-active",
+        "zygarde-50": "zygarde",
+        "oricorio-pom-pom": "oricorio-pompom",
+        "minior-orange-meteor": "minior",
+        "minior-yellow-meteor": "minior",
+        "minior-green-meteor": "minior",
+        "minior-blue-meteor": "minior",
+        "minior-indigo-meteor": "minior",
+        "minior-violet-meteor": "minior",
+        "minior-red-meteor": "minior",
+        "mimikyu-totem-disguised": "mimikyu-totem",
+        "pikachu-partner-cap": "pikachu-partnercap",
+        "rockruff-own-tempo": "rockruff",
+        "necrozma-dusk": "necrozma-dusk-mane",
+        "necrozma-dawn": "necrozma-dawn-wings"
+    };
+
     colors = {
         normal: "#9ea19d",
         poison: "#ca00cf",
@@ -94,7 +135,7 @@ export default class IndexPage extends Vue {
 
     async beforeMount() {
         await this.fetchPokemon();
-        // console.log(this.pokemon[0]);
+        console.log(this.pokemon[0]);
     }
 
     async fetchPokemon() {
@@ -134,7 +175,11 @@ export default class IndexPage extends Vue {
     }
 
     setSprite(pokemon: any) {
-        this.sprites[pokemon.name] = `https://projectpokemon.org/images/normal-sprite/${pokemon.name}.gif`;
+        let name = pokemon.name;
+        if (this.spriteNames[pokemon.name]) {
+            name = this.spriteNames[pokemon.name];
+        }
+        this.sprites[pokemon.name] = `https://projectpokemon.org/images/normal-sprite/${name}.gif`;
     }
 
     toggleShiny(name: string) {
@@ -143,10 +188,15 @@ export default class IndexPage extends Vue {
         const icons = this.$refs[`toggle-shiny-${name}`] as HTMLImageElement[];
         const icon = icons.length >= 1 ? icons[0] : null;
 
+        let spriteName = name;
+        if (this.spriteNames[name]) {
+            spriteName = this.spriteNames[name];
+        }
+
         if (sprite && icon) {
             if (icon.src.includes("non-shiny")) {
                 if (sprite.src.includes("projectpokemon")) {
-                    sprite.src = `https://projectpokemon.org/images/shiny-sprite/${name}.gif`;
+                    sprite.src = `https://projectpokemon.org/images/shiny-sprite/${spriteName}.gif`;
                 } else {
                     const pokemon = this.pokemon.find((pokemon) => pokemon.name === name);
                     if (pokemon) {
@@ -158,7 +208,7 @@ export default class IndexPage extends Vue {
                 icon.src = "/static/images/shiny.png";
             } else {
                 if (sprite.src.includes("projectpokemon")) {
-                    sprite.src = `https://projectpokemon.org/images/normal-sprite/${name}.gif`;
+                    sprite.src = `https://projectpokemon.org/images/normal-sprite/${spriteName}.gif`;
                 } else {
                     const pokemon = this.pokemon.find((pokemon) => pokemon.name === name);
                     if (pokemon) {

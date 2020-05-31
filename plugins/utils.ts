@@ -15,6 +15,9 @@ function notification(app: NuxtAppOptions, type: NotificationType, message: stri
 
 const plugin: Plugin = ({ app }, inject) => {
     inject("utils", {
+        beautifyName(ugly: string) {
+            return ugly.split("-").map((part) => part.charAt(0).toUpperCase() + part.substr(1, part.length)).join(" ");
+        },
         lastModified(): string {
             if (process.client) {
                 return app.$utils.format(document.lastModified, true);

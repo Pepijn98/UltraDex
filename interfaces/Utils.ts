@@ -1,4 +1,5 @@
 interface Utils {
+    beautifyName(ugly: string): string
     lastModified(): string;
     isEmptyObject(obj: Object): boolean;
     success(message: string, debug?: boolean): void;
