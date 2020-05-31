@@ -9,13 +9,20 @@
                         class="pokemon"
                         max-width="250"
                         shaped>
-                        <v-img :src="poke.sprites.front_default || 'https://b.catgirlsare.sexy/n9gQZY8v.webp'" />
+                        <div class="sprite">
+                            <img
+                                class="sprite__image"
+                                draggable="false"
+                                :src="sprites[poke.name]"
+                                @error="onSpriteError">
+                        </div>
                         <div class="text-center">
                             <v-chip
                                 v-for="item in poke.types"
                                 :key="item.type.name"
                                 :color="colors[item.type.name]"
                                 :ripple="false"
+                                text-color="white"
                                 class="ma-2"
                                 label
                                 small>
@@ -49,15 +56,16 @@ import { Vue, Component } from "vue-property-decorator";
     }
 })
 export default class IndexPage extends Vue {
+    pokemon: any[] = [];
     page = 1;
     count = 0;
+
+    sprites: Record<string, string> = {};
 
     options = {
         limit: 16,
         offset: 0
     };
-
-    pokemon: any[] = [];
 
     colors = {
         normal: "#9ea19d",
@@ -82,11 +90,12 @@ export default class IndexPage extends Vue {
 
     async beforeMount() {
         await this.fetchPokemon();
-        console.log(this.pokemon[0]);
+        // console.log(this.pokemon[0]);
     }
 
     async fetchPokemon() {
         this.pokemon = [];
+        this.sprites = {};
         this.options.offset = this.page === 1 ? 0 : this.page * this.options.limit;
 
         const data = await this.$pokeapi.getPokemonsList(this.options);
@@ -95,16 +104,61 @@ export default class IndexPage extends Vue {
         const list = data.results;
         for (let i = 0; i < list.length; i++) {
             const pokemon = await this.$pokeapi.getPokemonByName(list[i].name);
-            if (pokemon) this.pokemon.push(pokemon);
+            if (pokemon) {
+                await this.setSprite(pokemon);
+                this.pokemon.push(pokemon);
+            }
         }
+    }
+
+    onSpriteError(event: ErrorEvent) {
+        if (event.target) {
+            const element = event.target as HTMLImageElement;
+            const list = element.src.split("/");
+            const name = list[list.length - 1].replace(".gif", "");
+            const pokemon = this.pokemon.find((pokemon) => pokemon.name === name);
+            if (pokemon) {
+                if (pokemon.sprites.front_default) {
+                    element.src = pokemon.sprites.front_default;
+                } else {
+                    element.src = "https://b.catgirlsare.sexy/n9gQZY8v.webp";
+                }
+            } else {
+                element.src = "https://b.catgirlsare.sexy/n9gQZY8v.webp";
+            }
+        }
+    }
+
+    setSprite(pokemon: any) {
+        this.sprites[pokemon.name] = `https://projectpokemon.org/images/normal-sprite/${pokemon.name}.gif`;
     }
 }
 </script>
+
+<style lang="scss">
+.v-image {
+    &__image {
+        background-size: contain;
+    }
+}
+</style>
 
 <style lang="scss" scoped>
 .pokemon {
     width: 80%;
     margin-left: auto;
     margin-right: auto;
+
+    .sprite {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 200px;
+
+        &__image {
+            margin: 0;
+            transform: scale(1.1);
+        }
+    }
 }
 </style>
