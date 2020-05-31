@@ -1,11 +1,11 @@
 <template>
     <div>
         <ultrabar />
-        <v-pagination
+        <!-- <v-pagination
             v-model="page"
             :length="Math.floor(count / options.limit)"
             total-visible="10"
-            @input="fetchPokemon" />
+            @input="fetchPokemon" /> -->
         <v-container fluid>
             <v-row class="pokemon" align="center">
                 <v-col v-for="poke in pokemon" :key="poke.name" md="3">
