@@ -144,12 +144,30 @@ export default class IndexPage extends Vue {
         const icon = icons.length >= 1 ? icons[0] : null;
 
         if (sprite && icon) {
-            if (sprite.src.includes("shiny-sprite")) {
-                sprite.src = `https://projectpokemon.org/images/normal-sprite/${name}.gif`;
-                icon.src = "/static/images/non-shiny.png";
-            } else {
-                sprite.src = `https://projectpokemon.org/images/shiny-sprite/${name}.gif`;
+            if (icon.src.includes("non-shiny")) {
+                if (sprite.src.includes("projectpokemon")) {
+                    sprite.src = `https://projectpokemon.org/images/shiny-sprite/${name}.gif`;
+                } else {
+                    const pokemon = this.pokemon.find((pokemon) => pokemon.name === name);
+                    if (pokemon) {
+                        sprite.src = pokemon.sprites.front_shiny || "https://b.catgirlsare.sexy/n9gQZY8v.webp";
+                    } else {
+                        sprite.src = "https://b.catgirlsare.sexy/n9gQZY8v.webp";
+                    }
+                }
                 icon.src = "/static/images/shiny.png";
+            } else {
+                if (sprite.src.includes("projectpokemon")) {
+                    sprite.src = `https://projectpokemon.org/images/normal-sprite/${name}.gif`;
+                } else {
+                    const pokemon = this.pokemon.find((pokemon) => pokemon.name === name);
+                    if (pokemon) {
+                        sprite.src = pokemon.sprites.front_default || "https://b.catgirlsare.sexy/n9gQZY8v.webp";
+                    } else {
+                        sprite.src = "https://b.catgirlsare.sexy/n9gQZY8v.webp";
+                    }
+                }
+                icon.src = "/static/images/non-shiny.png";
             }
         }
     }
