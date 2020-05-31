@@ -9,11 +9,15 @@
                         class="pokemon"
                         max-width="250"
                         shaped>
+                        <v-btn class="toggle-shiny" top left fab @click="toggleShiny(poke.name)">
+                            <img :ref="`toggle-shiny-${poke.name}`" height="30px" src="~assets/images/non-shiny.png">
+                        </v-btn>
                         <div class="sprite">
                             <img
+                                :ref="poke.name"
                                 class="sprite__image"
-                                draggable="false"
                                 :src="sprites[poke.name]"
+                                draggable="false"
                                 @error="onSpriteError">
                         </div>
                         <div class="text-center">
@@ -132,6 +136,23 @@ export default class IndexPage extends Vue {
     setSprite(pokemon: any) {
         this.sprites[pokemon.name] = `https://projectpokemon.org/images/normal-sprite/${pokemon.name}.gif`;
     }
+
+    toggleShiny(name: string) {
+        const sprites = this.$refs[name] as HTMLImageElement[];
+        const sprite = sprites.length >= 1 ? sprites[0] : null;
+        const icons = this.$refs[`toggle-shiny-${name}`] as HTMLImageElement[];
+        const icon = icons.length >= 1 ? icons[0] : null;
+
+        if (sprite && icon) {
+            if (sprite.src.includes("shiny-sprite")) {
+                sprite.src = `https://projectpokemon.org/images/normal-sprite/${name}.gif`;
+                icon.src = "/static/images/non-shiny.png";
+            } else {
+                sprite.src = `https://projectpokemon.org/images/shiny-sprite/${name}.gif`;
+                icon.src = "/static/images/shiny.png";
+            }
+        }
+    }
 }
 </script>
 
@@ -157,6 +178,7 @@ export default class IndexPage extends Vue {
 
         &__image {
             margin: 0;
+            /* height: 120px; */
             transform: scale(1.1);
         }
     }
