@@ -10,7 +10,7 @@
                         max-width="250"
                         shaped>
                         <v-btn class="toggle-shiny" top left fab @click="toggleShiny(poke.name)">
-                            <img :ref="`toggle-shiny-${poke.name}`" height="30px" src="~assets/images/non-shiny.png">
+                            <img :ref="`toggle-shiny-${poke.name}`" height="30px" src="/static/images/non-shiny.png">
                         </v-btn>
                         <div class="sprite">
                             <img
