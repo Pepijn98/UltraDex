@@ -1,6 +1,6 @@
 {
     "name": "ultradex",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "Lookup any pokemon in the pokedex",
     "license": "MIT",
     "private": false,
