@@ -13,6 +13,7 @@
                         :elevation="3"
                         class="pokemon"
                         max-width="250"
+                        min-width="250"
                         shaped>
                         <v-btn class="toggle-shiny" top left fab @click="toggleShiny(poke.name)">
                             <img :ref="`toggle-shiny-${poke.name}`" height="30px" src="/static/images/non-shiny.png">
