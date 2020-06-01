@@ -1,6 +1,7 @@
 import Console from "~/interfaces/Console";
 import Settings from "~/interfaces/Settings";
 import Utils from "~/interfaces/Utils";
+import Pokemon from "~/interfaces/Pokemon";
 import * as SentryTypes from "@sentry/minimal";
 import { NuxtAxiosInstance } from "@nuxtjs/axios";
 import { VuetifyToastObject } from "vuetify-toast-snackbar";
@@ -31,6 +32,7 @@ declare module "@nuxt/types" {
         $http: NuxtAxiosInstance;
         $settings: Settings;
         $utils: Utils;
+        $pokemon: Pokemon;
 
         $toast: VuetifyToastMethods;
         $pokeapi: any;

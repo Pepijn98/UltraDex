@@ -1,3 +1,4 @@
+import Console from "~/interfaces/Console";
 import { Plugin } from "@nuxt/types";
 
 const plugin: Plugin = ({ app }, inject) => {
@@ -23,7 +24,7 @@ const plugin: Plugin = ({ app }, inject) => {
         warning(message: string): void {
             console.log(`%c ⚠ ${message}`, "color: #FFDD57;");
         }
-    });
+    } as Console); // Cast for type interference
 };
 
 export default plugin;

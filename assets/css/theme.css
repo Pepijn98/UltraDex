@@ -1,0 +1,13 @@
+.theme--dark {
+    --card-header-background: #272727;
+    --pokemon-id-background: #111111;
+    --scrollbar-background: #272727;
+    --scrollbar-background-hover: #141414;
+}
+
+.theme--light {
+    --card-header-background: #e4e4e4;
+    --pokemon-id-background: #e4e4e4;
+    --scrollbar-background: #e4e4e4;
+    --scrollbar-background-hover: #999999;
+}

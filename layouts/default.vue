@@ -2,9 +2,6 @@
     <v-app v-if="isReady">
         <nuxt />
     </v-app>
-    <v-app v-else>
-        <loading :active="!isReady" color="#e8ba4b" :height="144" :width="144" />
-    </v-app>
 </template>
 
 <script lang="ts">
@@ -29,19 +26,3 @@ export default class DefaultLayout extends Vue {
     }
 };
 </script>
-
-<style lang="scss">
-.is-full-page {
-    min-height: 100vh;
-    max-width: 100%;
-}
-
-.vld-icon {
-    height: 144px;
-    width: 144px;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-}
-</style>

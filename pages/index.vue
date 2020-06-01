@@ -1,61 +1,77 @@
 <template>
-    <div>
-        <ultrabar />
-        <!-- <v-pagination
-            v-model="page"
-            :length="Math.floor(count / options.limit)"
-            total-visible="10"
-            @input="fetchPokemon" /> -->
-        <v-container fluid>
-            <v-row class="pokemon" align="center">
-                <v-col v-for="poke in pokemon" :key="poke.name" md="3">
-                    <v-card
-                        :elevation="3"
-                        class="pokemon"
-                        max-width="250"
-                        min-width="250"
-                        shaped>
-                        <v-btn class="toggle-shiny" top left fab @click="toggleShiny(poke.name)">
-                            <img :ref="`toggle-shiny-${poke.name}`" height="30px" src="/static/images/non-shiny.png">
-                        </v-btn>
-                        <div class="sprite">
-                            <img
-                                :ref="poke.name"
-                                class="sprite__image"
-                                :src="sprites[poke.name]"
-                                draggable="false"
-                                @error="onSpriteError">
-                        </div>
-                        <div class="text-center">
-                            <v-chip
-                                v-for="item in poke.types"
-                                :key="item.type.name"
-                                :color="colors[item.type.name]"
-                                :ripple="false"
-                                text-color="white"
-                                class="ma-2"
-                                label
-                                small>
-                                <b style="text-shadow: 1px 1px 3px #000000;">{{ item.type.name }}</b>
-                            </v-chip>
-                        </div>
-                        <v-card-title>{{ $utils.beautifyName(poke.name) }}</v-card-title>
-                        <v-card-subtitle>Pitch-Black Pokémon</v-card-subtitle>
-                        <v-card-text>It can lull people to sleep and make them dream. It is active during nights of the new moon.</v-card-text>
-                    </v-card>
-                </v-col>
-            </v-row>
-        </v-container>
-        <v-pagination
-            v-model="page"
-            :length="Math.floor(count / options.limit)"
-            total-visible="10"
-            @input="fetchPokemon" />
+    <div class="max-hw">
+        <div v-if="pokemon.length < 16" class="max-hw center-content">
+            <div class="loading-wrapper">
+                <loading
+                    :active="pokemon.length < 16"
+                    :is-full-page="false"
+                    :height="100"
+                    :width="100"
+                    color="#e8ba4b"
+                    loader="dots" />
+                <div style="max-width: 430px;">Fetching pokemon info, this will only take a few seconds. Next time you load this page it will be faster!</div>
+            </div>
+        </div>
+        <div v-else>
+            <ultrabar />
+            <v-container fluid>
+                <v-row class="list" align="center">
+                    <v-col v-for="poke in pokemon" :key="poke.name" md="3">
+                        <v-card
+                            :elevation="3"
+                            class="pokemon"
+                            max-width="250"
+                            min-width="250"
+                            shaped>
+                            <div class="header">
+                                <v-btn top left fab @click="toggleShiny(poke.name)">
+                                    <img :ref="`toggle-shiny-${poke.name}`" height="30px" src="/static/images/non-shiny.png">
+                                </v-btn>
+                                <div class="pokemon-sprite">
+                                    <img
+                                        :ref="poke.name"
+                                        class="pokemon-sprite__image"
+                                        :src="sprites[poke.name]"
+                                        draggable="false"
+                                        @error="onSpriteError">
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <v-chip
+                                    v-for="item in poke.types"
+                                    :key="item.type.name"
+                                    :color="$pokemon.typeColors[item.type.name]"
+                                    :ripple="false"
+                                    class="ma-2"
+                                    text-color="white"
+                                    label
+                                    small>
+                                    <b style="text-shadow: 1px 1px 3px #000000;">{{ item.type.name }}</b>
+                                </v-chip>
+                            </div>
+                            <div class="pokemon-id">{{ getID(poke) }}</div>
+                            <v-card-title>{{ $utils.beautifyName(poke.name) }}</v-card-title>
+                            <v-card-subtitle>{{ getGenusText(poke) }}</v-card-subtitle>
+                            <v-card-text>{{ getFlavorText(poke) }}</v-card-text>
+                            <div style="height: 20px;" />
+                        </v-card>
+                    </v-col>
+                </v-row>
+
+                <v-pagination
+                    v-model="page"
+                    :length="Math.floor(count / options.limit)"
+                    total-visible="10"
+                    @input="fetchPokemon" />
+            </v-container>
+        </div>
     </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
+
+// https://pokeapi.co/api/v2/pokemon-species/
 
 @Component({
     head: {
@@ -67,6 +83,7 @@ import { Vue, Component } from "vue-property-decorator";
 })
 export default class IndexPage extends Vue {
     pokemon: any[] = [];
+    species: any[] = [];
     page = 1;
     count = 0;
 
@@ -75,63 +92,6 @@ export default class IndexPage extends Vue {
     options = {
         limit: 16,
         offset: 0
-    };
-
-    spriteNames: Record<string, string> = {
-        "giratina-altered": "giratina",
-        "pumpkaboo-average": "pumpkaboo",
-        "gourgeist-average": "gourgeist",
-        "meowstic-female": "meowstic-f",
-        "charizard-mega-y": "charizard-megay",
-        "charizard-mega-x": "charizard-megax",
-        "mewtwo-mega-y": "mewtwo-megay",
-        "mewtwo-mega-x": "mewtwo-megax",
-        "pikachu-rock-star": "pikachu-rockstar",
-        "pikachu-pop-star": "pikachu-popstar",
-        "pikachu-original-cap": "pikachu-kantocap",
-        "pikachu-hoenn-cap": "pikachu-hoenncap",
-        "pikachu-sinnoh-cap": "pikachu-sinnohcap",
-        "pikachu-unova-cap": "pikachu-unovacap",
-        "pikachu-kalos-cap": "pikachu-kaloscap",
-        "pikachu-alola-cap": "pikachu-alolacap",
-        "raticate-totem-alola": "raticate-totem",
-        "greninja-battle-bond": "greninja-active",
-        "greninja-ash": "greninja-active",
-        "zygarde-50": "zygarde",
-        "oricorio-pom-pom": "oricorio-pompom",
-        "minior-orange-meteor": "minior",
-        "minior-yellow-meteor": "minior",
-        "minior-green-meteor": "minior",
-        "minior-blue-meteor": "minior",
-        "minior-indigo-meteor": "minior",
-        "minior-violet-meteor": "minior",
-        "minior-red-meteor": "minior",
-        "mimikyu-totem-disguised": "mimikyu-totem",
-        "pikachu-partner-cap": "pikachu-partnercap",
-        "rockruff-own-tempo": "rockruff",
-        "necrozma-dusk": "necrozma-dusk-mane",
-        "necrozma-dawn": "necrozma-dawn-wings"
-    };
-
-    colors = {
-        normal: "#9ea19d",
-        poison: "#ca00cf",
-        psychic: "#ff737b",
-        grass: "#00cf57",
-        ground: "#e37644",
-        ice: "#53d8c1",
-        fire: "#ffa63e",
-        rock: "#c6c186",
-        dragon: "#354bca",
-        water: "#568ee2",
-        bug: "#77ce25",
-        dark: "#5b5562",
-        fighting: "#e2005a",
-        ghost: "#6c53bd",
-        steel: "#4a95a3",
-        flying: "#a3b0ed",
-        electric: "#ece740",
-        fairy: "#ff63e5"
     };
 
     async beforeMount() {
@@ -151,10 +111,45 @@ export default class IndexPage extends Vue {
         for (let i = 0; i < list.length; i++) {
             const pokemon = await this.$pokeapi.getPokemonByName(list[i].name);
             if (pokemon) {
-                await this.setSprite(pokemon);
+                this.setSprite(pokemon);
                 this.pokemon.push(pokemon);
             }
+
+            try {
+                const species = await this.$pokeapi.getPokemonSpeciesByName(list[i].name);
+                if (species) this.species.push(species);
+            } catch (e) {
+                this.$console.error(e);
+            }
         }
+    }
+
+    getID(pokemon: any) {
+        return "#" + (pokemon.id < 10 ? "00" + pokemon.id : pokemon.id < 100 ? "0" + pokemon.id : pokemon.id);
+    }
+
+    getGenusText(pokemon: any) {
+        const item = this.species.find((s) => s.id === pokemon.id);
+        if (item) {
+            const entries = item.genera.filter((entry: any) => entry.language.name === "en");
+            if (entries.length >= 1) {
+                return entries[0].genus;
+            }
+            return "No Genus Text Found";
+        }
+        return "No Genus Text Found";
+    }
+
+    getFlavorText(pokemon: any) {
+        const item = this.species.find((s) => s.id === pokemon.id);
+        if (item) {
+            const entries = item.flavor_text_entries.filter((entry: any) => entry.language.name === "en");
+            if (entries.length >= 1) {
+                return entries[0].flavor_text;
+            }
+            return "No Flavor Text Found";
+        }
+        return "No Flavor Text Found";
     }
 
     onSpriteError(event: ErrorEvent) {
@@ -177,8 +172,8 @@ export default class IndexPage extends Vue {
 
     setSprite(pokemon: any) {
         let name = pokemon.name;
-        if (this.spriteNames[pokemon.name]) {
-            name = this.spriteNames[pokemon.name];
+        if (this.$pokemon.spriteNames[pokemon.name]) {
+            name = this.$pokemon.spriteNames[pokemon.name];
         }
         this.sprites[pokemon.name] = `https://projectpokemon.org/images/normal-sprite/${name}.gif`;
     }
@@ -190,8 +185,8 @@ export default class IndexPage extends Vue {
         const icon = icons.length >= 1 ? icons[0] : null;
 
         let spriteName = name;
-        if (this.spriteNames[name]) {
-            spriteName = this.spriteNames[name];
+        if (this.$pokemon.spriteNames[name]) {
+            spriteName = this.$pokemon.spriteNames[name];
         }
 
         if (sprite && icon) {
@@ -226,6 +221,41 @@ export default class IndexPage extends Vue {
 </script>
 
 <style lang="scss">
+.vld-overlay {
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.v-card {
+    &__text {
+        max-height: 105px;
+        overflow: auto;
+
+        /* FireFox scrollbar */
+        scrollbar-color: var(--scrollbar-background) transparent;
+        scrollbar-width: thin;
+
+        /* Chrome scrollbar */
+        &::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: var(--scrollbar-background);
+            border-radius: 50px;
+
+            &:hover {
+                background: var(--scrollbar-background-hover);
+            }
+        }
+    }
+}
+
 .v-image {
     &__image {
         background-size: contain;
@@ -234,21 +264,60 @@ export default class IndexPage extends Vue {
 </style>
 
 <style lang="scss" scoped>
-.pokemon {
+.max-hw {
+    height: 100%;
+    width: 100%;
+}
+
+.center-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading-wrapper {
+    width: fit-content;
+    text-align: center;
+}
+
+.list {
     width: 80%;
     margin-left: auto;
     margin-right: auto;
 
-    .sprite {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 200px;
+    .pokemon {
+        margin-left: auto;
+        margin-right: auto;
 
-        &__image {
-            margin: 0;
-            /* height: 120px; */
-            transform: scale(1.1);
+        .header {
+            background-color: var(--card-header-background);
+            border-bottom-left-radius: 24px;
+            border-bottom-right-radius: 24px;
+        }
+
+        &-sprite {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 200px;
+
+            &__image {
+                margin: 0;
+                transform: scale(1.1);
+            }
+        }
+
+        &-id {
+            width: fit-content;
+            padding: 0 5px 0 16px;
+            margin-bottom: -16px;
+            font-size: 0.875rem;
+            font-weight: 400;
+            line-height: 1.375rem;
+            letter-spacing: 0.0071428571em;
+            background-color: var(--pokemon-id-background);
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
         }
     }
 }

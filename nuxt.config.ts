@@ -80,13 +80,16 @@ const config: Configuration = {
         ]
     },
     loading: { color: "#e8ba4b" },
-    css: [],
+    css: [
+        "~/assets/css/theme.css"
+    ],
     plugins: [
         "~/plugins/components.ts",
         "~/plugins/settings.ts",
         "~/plugins/console.ts",
         "~/plugins/utils.ts",
-        "~/plugins/pokeapi.ts"
+        "~/plugins/pokeapi.ts",
+        "~/plugins/pokemon.ts"
     ],
     buildModules: [
         "@nuxt/typescript-build", // Doc: https://typescript.nuxtjs.org/
